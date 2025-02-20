@@ -55,4 +55,3 @@ class CommentViewSet(viewsets.ModelViewSet):
         """
         post = get_object_or_404(Post, id=self.kwargs['post_id'])
         serializer.save(author=self.request.user, post=post)
-
