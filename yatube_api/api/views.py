@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
-from posts.models import Group, Post, User
 from rest_framework import viewsets
+
+from posts.models import Group, Post, User
 from .permissions import IsAuthorOrReadOnly
 from .serializers import (
     CommentSerializer,
@@ -8,6 +9,7 @@ from .serializers import (
     PostSerializer,
     UserSerializer,
 )
+
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -43,9 +45,13 @@ class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     permission_classes = (IsAuthorOrReadOnly,)
 
+    def get_post_id(self):
+        """Возвращает ID поста из параметров запроса."""
+        return self.kwargs.get("post_id")
+
     def get_queryset(self):
         """Возвращает все комментарии для конкретного поста."""
-        post = get_object_or_404(Post, id=self.kwargs['post_id'])
+        post = get_object_or_404(Post, id=self.get_post_id())
         return post.comments.all()
 
     def perform_create(self, serializer):
@@ -53,5 +59,5 @@ class CommentViewSet(viewsets.ModelViewSet):
         Создаёт комментарий и автоматически привязывает его
         к текущему пользователю и соответствующему посту.
         """
-        post = get_object_or_404(Post, id=self.kwargs['post_id'])
+        post = get_object_or_404(Post, id=self.get_post_id())
         serializer.save(author=self.request.user, post=post)
