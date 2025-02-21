@@ -17,6 +17,7 @@ class IsAuthorOrReadOnly(permissions.BasePermission):
         Чтение (GET, HEAD, OPTIONS) всем пользователям.
         Изменение и удаление только автору объекта.
         """
-        if request.method in permissions.SAFE_METHODS:
-            return True
-        return obj.author == request.user
+        return (
+                request.method in permissions.SAFE_METHODS
+                or obj.author == request.user
+        )
