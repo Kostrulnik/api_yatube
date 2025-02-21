@@ -14,5 +14,5 @@ v1_router.register('posts/(?P<post_id>\\d+)/comments',
 
 urlpatterns = [
     path('v1/', include(v1_router.urls)),
-    path('v1/api-token-auth/', views.obtain_auth_token, name='token_auth'),
+    path('v1/api-token-auth/', views.obtain_auth_token),
 ]
