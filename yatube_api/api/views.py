@@ -11,7 +11,6 @@ from .serializers import (
 )
 
 
-
 class PostViewSet(viewsets.ModelViewSet):
     """
     ViewSet для управления постами (CRUD-операции).

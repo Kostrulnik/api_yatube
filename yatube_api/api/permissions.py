@@ -18,6 +18,6 @@ class IsAuthorOrReadOnly(permissions.BasePermission):
         Изменение и удаление только автору объекта.
         """
         return (
-                request.method in permissions.SAFE_METHODS
-                or obj.author == request.user
+            request.method in permissions.SAFE_METHODS
+            or obj.author == request.user
         )
